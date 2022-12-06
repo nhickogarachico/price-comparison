@@ -9,26 +9,21 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ProductsController = void 0;
+exports.ProductsService = void 0;
 const common_1 = require("@nestjs/common");
-const products_service_1 = require("./products.service");
-let ProductsController = class ProductsController {
-    constructor(productsService) {
-        this.productsService = productsService;
+const prisma_service_1 = require("../prisma/prisma.service");
+let ProductsService = class ProductsService {
+    constructor(prisma) {
+        this.prisma = prisma;
     }
-    findAll() {
-        return this.productsService.findAll();
+    async findAll() {
+        const products = await this.prisma.product.findMany();
+        return products;
     }
 };
-__decorate([
-    (0, common_1.Get)(),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", Promise)
-], ProductsController.prototype, "findAll", null);
-ProductsController = __decorate([
-    (0, common_1.Controller)('products'),
-    __metadata("design:paramtypes", [products_service_1.ProductsService])
-], ProductsController);
-exports.ProductsController = ProductsController;
-//# sourceMappingURL=products.controller.js.map
+ProductsService = __decorate([
+    (0, common_1.Injectable)(),
+    __metadata("design:paramtypes", [prisma_service_1.PrismaService])
+], ProductsService);
+exports.ProductsService = ProductsService;
+//# sourceMappingURL=products.service.js.map
