@@ -1,0 +1,23 @@
+-- CreateTable
+CREATE TABLE "Store" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "name" TEXT NOT NULL
+);
+
+-- CreateTable
+CREATE TABLE "ProductStore" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "productId" INTEGER NOT NULL,
+    "storeId" INTEGER NOT NULL,
+    CONSTRAINT "ProductStore_productId_fkey" FOREIGN KEY ("productId") REFERENCES "Product" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT "ProductStore_storeId_fkey" FOREIGN KEY ("storeId") REFERENCES "Store" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+-- CreateTable
+CREATE TABLE "Price" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "price" DECIMAL NOT NULL DEFAULT 0,
+    "productStoreId" INTEGER NOT NULL,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "Price_productStoreId_fkey" FOREIGN KEY ("productStoreId") REFERENCES "ProductStore" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);
