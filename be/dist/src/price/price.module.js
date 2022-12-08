@@ -6,21 +6,19 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AppModule = void 0;
+exports.PriceModule = void 0;
 const common_1 = require("@nestjs/common");
-const products_module_1 = require("./products/products.module");
-const prisma_module_1 = require("./prisma/prisma.module");
-const brands_module_1 = require("./brands/brands.module");
-const stores_module_1 = require("./stores/stores.module");
-const price_module_1 = require("./price/price.module");
-let AppModule = class AppModule {
+const prisma_module_1 = require("../prisma/prisma.module");
+const price_controller_1 = require("./price.controller");
+const price_service_1 = require("./price.service");
+let PriceModule = class PriceModule {
 };
-AppModule = __decorate([
+PriceModule = __decorate([
     (0, common_1.Module)({
-        imports: [products_module_1.ProductsModule, prisma_module_1.PrismaModule, brands_module_1.BrandsModule, stores_module_1.StoresModule, price_module_1.PriceModule],
-        controllers: [],
-        providers: [],
+        imports: [prisma_module_1.PrismaModule],
+        controllers: [price_controller_1.PriceController],
+        providers: [price_service_1.PriceService],
     })
-], AppModule);
-exports.AppModule = AppModule;
-//# sourceMappingURL=app.module.js.map
+], PriceModule);
+exports.PriceModule = PriceModule;
+//# sourceMappingURL=price.module.js.map

@@ -9,40 +9,52 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ProductsService = void 0;
+exports.PriceService = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../prisma/prisma.service");
-let ProductsService = class ProductsService {
+let PriceService = class PriceService {
     constructor(prisma) {
         this.prisma = prisma;
     }
-    async findAll() {
-        const products = await this.prisma.product.findMany({
+    async addPrice(product) {
+        let productStore = null;
+        productStore = await this.prisma.productStore.findFirst({
+            where: {
+                productId: product.productId,
+                storeId: product.storeId,
+            },
+        });
+        if (!productStore) {
+            productStore = await this.prisma.productStore.create({
+                data: {
+                    productId: product.productId,
+                    storeId: product.storeId,
+                },
+            });
+        }
+        const productPrice = await this.prisma.price.create({
+            data: {
+                productStoreId: productStore.id,
+                price: product.price,
+            },
             include: {
-                brand: true,
-                stores: {
+                productStore: {
                     include: {
+                        product: true,
                         store: true,
-                        prices: true,
                     },
                 },
             },
         });
-        return products;
-    }
-    async create(product) {
-        const newProduct = await this.prisma.product.create({
-            data: product,
-        });
         return {
             success: true,
-            product: newProduct,
+            price: productPrice,
         };
     }
 };
-ProductsService = __decorate([
+PriceService = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [prisma_service_1.PrismaService])
-], ProductsService);
-exports.ProductsService = ProductsService;
-//# sourceMappingURL=products.service.js.map
+], PriceService);
+exports.PriceService = PriceService;
+//# sourceMappingURL=price.service.js.map

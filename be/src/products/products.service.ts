@@ -1,4 +1,4 @@
-import { Body, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Product } from '@prisma/client';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -11,6 +11,12 @@ export class ProductsService {
     const products = await this.prisma.product.findMany({
       include: {
         brand: true,
+        stores: {
+          include: {
+            store: true,
+            prices: true,
+          },
+        },
       },
     });
 
